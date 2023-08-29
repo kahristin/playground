@@ -14,38 +14,6 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        let catX = canvas.width / 2;
-        let catY = canvas.height / 2;
-        const catSpeed = 0.05;
-
-        function drawCat(x, y) {
-            // Body
-            ctx.fillStyle = "#000";
-            ctx.fillRect(x, y, 20, 15);
-            
-            // Ears
-            ctx.fillRect(x, y - 5, 5, 5);
-            ctx.fillRect(x + 15, y - 5, 5, 5);
-            
-            // Eyes
-            ctx.fillStyle = "#FFF";
-            ctx.fillRect(x + 5, y + 5, 3, 3);
-            ctx.fillRect(x + 12, y + 5, 3, 3);
-        }
-
-        function moveCatTowardsMouse(mouseX, mouseY) {
-            let distX = mouseX - catX;
-            let distY = mouseY - catY;
-
-            catX += distX * catSpeed;
-            catY += distY * catSpeed;
-
-            // Clear canvas and draw cat and rain
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawCat(catX, catY);
-            drawRainbowSand(mouseX);
-        }
-
         function drawRainbowSand(x) {
             const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#7FFF00', '#00FF00', '#00FF7F', '#00FFFF', '#007FFF', '#0000FF', '#7F00FF', '#FF00FF', '#FF007F'];
             const grainSize = 5;
@@ -57,12 +25,8 @@
         }
 
         canvas.addEventListener("mousemove", (event) => {
-            moveCatTowardsMouse(event.offsetX, event.offsetY);
+            drawRainbowSand(event.offsetX);
         });
-
-        // Initial drawing
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawCat(catX, catY);
     </script>
 </body>
 </html>
