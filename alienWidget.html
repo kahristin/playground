@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
 
+        let alienX = canvas.width / 2;
+        let alienY = canvas.height - 50;  // Starting near the bottom
+        const alienSpeed = 0.05;
+
+        function drawPoster() {
+            // Basic blue background for the poster
+            ctx.fillStyle = "#ADD8E6";
+            ctx.fillRect(50, 50, 300, 450);
+
+            // Basic UFO shape
+            ctx.fillStyle = "#808080";
+            ctx.beginPath();
+            ctx.arc(200, 250, 50, 0, Math.PI, true);
+            ctx.fill();
+            ctx.fillRect(150, 240, 100, 20);
+
+            // Text "I WANT TO BELIEVE"
+            ctx.fillStyle = "#000000";
+            ctx.font = "20px Arial";
+            ctx.fillText("I WANT", 140, 400);
+            ctx.fillText("TO BELIEVE", 110, 430);
+        }
+
+        function drawAlien(x, y) {
+            // Alien body
+            ctx.fillStyle = "#32CD32";
+            ctx.fillRect(x, y, 10, 20);
+
+            // Alien eyes
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(x + 2, y + 4, 2, 2);
+            ctx.fillRect(x + 6, y + 4, 2, 2);
+        }
+
+        function moveAlienTowardsMouse(mouseX, mouseY) {
+            let distX = mouseX - alienX;
+            let distY = mouseY - alienY;
+
+            alienX += distX * alienSpeed;
+            alienY += distY * alienSpeed;
+
+            // Clear canvas and draw poster and alien
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPoster();
+            drawAlien(alienX, alienY);
+        }
+
+        canvas.addEventListener("mousemove", (event) => {
+            moveAlienTowardsMouse(event.offsetX, event.offsetY);
+        });
+
+        // Initial drawing
+        drawPoster();
+        drawAlien(alienX, alienY);
+    </script>
+</body>
+</html>
