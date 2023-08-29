@@ -9,21 +9,16 @@
     </style>
 </head>
 <body>
-    <canvas id="catCanvas" width="600" height="400"></canvas>
+    <canvas id="canvas" width="600" height="400"></canvas>
     <script>
-        const canvas = document.getElementById("catCanvas");
+        const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        // Starting position for the cat
         let catX = canvas.width / 2;
         let catY = canvas.height / 2;
-
-        // The speed of the cat's movement
         const catSpeed = 0.05;
 
         function drawCat(x, y) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear previous drawings
-            
             // Body
             ctx.fillStyle = "#000";
             ctx.fillRect(x, y, 20, 15);
@@ -39,15 +34,26 @@
         }
 
         function moveCatTowardsMouse(mouseX, mouseY) {
-            // Calculate the distance between the cat and the mouse
             let distX = mouseX - catX;
             let distY = mouseY - catY;
 
-            // Move the cat a fraction of the distance towards the mouse
             catX += distX * catSpeed;
             catY += distY * catSpeed;
 
+            // Clear canvas and draw cat and rain
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawCat(catX, catY);
+            drawRainbowSand(mouseX);
+        }
+
+        function drawRainbowSand(x) {
+            const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#7FFF00', '#00FF00', '#00FF7F', '#00FFFF', '#007FFF', '#0000FF', '#7F00FF', '#FF00FF', '#FF007F'];
+            const grainSize = 5;
+            for (let i = 0; i < 10; i++) {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                ctx.fillStyle = randomColor;
+                ctx.fillRect(x + (Math.random() * grainSize * 2 - grainSize), i * grainSize, grainSize, grainSize);
+            }
         }
 
         canvas.addEventListener("mousemove", (event) => {
@@ -55,6 +61,7 @@
         });
 
         // Initial drawing
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawCat(catX, catY);
     </script>
 </body>
