@@ -14,19 +14,53 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        function drawRainbowSand(x) {
-            const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#7FFF00', '#00FF00', '#00FF7F', '#00FFFF', '#007FFF', '#0000FF', '#7F00FF', '#FF00FF', '#FF007F'];
-            const grainSize = 5;
-            for (let i = 0; i < 10; i++) {
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                ctx.fillStyle = randomColor;
-                ctx.fillRect(x + (Math.random() * grainSize * 2 - grainSize), i * grainSize, grainSize, grainSize);
+        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#7FFF00', '#00FF00', '#00FF7F', '#00FFFF', '#007FFF', '#0000FF', '#7F00FF', '#FF00FF', '#FF007F'];
+        const grains = [];
+
+        class Grain {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.speed = Math.random() * 2 + 1;  // Random speed between 1 and 3
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, 5, 5);
+            }
+
+            update() {
+                this.y += this.speed;
             }
         }
 
+        function createRainbowSand(x, y) {
+            for (let i = 0; i < 10; i++) {
+                grains.push(new Grain(x + (Math.random() * 10 - 5), y)); // Create 10 grains around mouse position
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
+            for (let i = 0; i < grains.length; i++) {
+                grains[i].update();
+                grains[i].draw();
+
+                // If grain is out of canvas, remove it from array
+                if (grains[i].y > canvas.height) {
+                    grains.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animate);  // Create an animation loop
+        }
+
         canvas.addEventListener("mousemove", (event) => {
-            drawRainbowSand(event.offsetX);
+            createRainbowSand(event.offsetX, event.offsetY);
         });
+
+        animate();  // Start the animation loop
     </script>
 </body>
 </html>
