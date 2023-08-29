@@ -27,7 +27,7 @@
 
             draw() {
                 ctx.fillStyle = this.color;
-                ctx.fillRect(this.x, this.y, 5, 5);
+                ctx.fillRect(this.x, this.y, 1, 1);  // Grain size set to 1 pixel
             }
 
             update() {
@@ -37,7 +37,7 @@
 
         function createRainbowSand(x, y) {
             for (let i = 0; i < 10; i++) {
-                grains.push(new Grain(x + (Math.random() * 10 - 5), y)); // Create 10 grains around mouse position
+                grains.push(new Grain(x + (Math.random() * 2 - 1), y)); // Create 10 grains around mouse position
             }
         }
 
