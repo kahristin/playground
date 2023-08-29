@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="catCanvas" width="600" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("catCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let catX = canvas.width / 2;
+        let catY = canvas.height / 2;
+
+        function drawCat(x, y) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawings
+            ctx.fillStyle = "#000"; // Black color for the cat
+            ctx.fillRect(x, y, 10, 10); // Tiny rectangle representing the cat
+        }
+
+        canvas.addEventListener("mousemove", (event) => {
+            catX = event.offsetX;
+            catY = event.offsetY;
+            drawCat(catX, catY);
+        });
+
+        // Initial drawing
+        drawCat(catX, catY);
+    </script>
+</body>
+</html>
